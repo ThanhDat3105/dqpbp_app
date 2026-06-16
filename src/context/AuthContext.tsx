@@ -1,9 +1,21 @@
-import { useRouter } from 'expo-router';
-import { createContext, ReactNode, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { useRouter } from "expo-router";
+import {
+  createContext,
+  ReactNode,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 
-import { getToken, removeToken, setToken as persistToken } from '@/lib/token-storage';
-import { authApi, User } from '@/services/api/auth';
-import { userApi } from '@/services/api/user';
+import {
+  getToken,
+  setToken as persistToken,
+  removeToken,
+} from "@/lib/token-storage";
+import { authApi, User } from "@/services/api/auth";
+import { userApi } from "@/services/api/user";
 
 interface AuthContextType {
   isLoadingFetchUser: boolean;
@@ -46,7 +58,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   useEffect(() => {
     const initAuth = async () => {
       try {
-        const savedToken = await getToken('authToken');
+        const savedToken = await getToken("authToken");
 
         if (savedToken) {
           const userData = await userApi.getMe();
@@ -58,7 +70,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
           }
         }
       } catch (err) {
-        console.error('Authentication initialization error:', err);
+        console.error("Authentication initialization error:", err);
       } finally {
         setIsLoadingFetchUser(false);
       }
@@ -73,12 +85,15 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
     try {
       const data = await authApi.login(email, password);
+
+      console.log("Login successful:", data);
+
       const {
         token: { access_token: newToken },
         user: userData,
       } = data.metaData;
 
-      await persistToken('authToken', newToken);
+      await persistToken("authToken", newToken);
 
       setTokenState(newToken);
       setUser(userData);
@@ -89,7 +104,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
       return true;
     } catch (err: any) {
-      setError(err?.data?.message ?? 'Đăng nhập thất bại. Vui lòng thử lại.');
+      setError(err?.data?.message ?? "Đăng nhập thất bại. Vui lòng thử lại.");
       return false;
     } finally {
       setIsLoadingSubmit(false);
@@ -102,7 +117,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     } catch {
       // ignore network errors on logout, still clear local session
     } finally {
-      await removeToken('authToken');
+      await removeToken("authToken");
       setTokenState(null);
       setUser(null);
       setIsAuth(false);
@@ -118,7 +133,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       const response = await userApi.getMe();
       if (response) setUser(response);
     } catch (err) {
-      console.error('Error refreshing user:', err);
+      console.error("Error refreshing user:", err);
     } finally {
       setIsLoadingFetchUser(false);
     }
@@ -137,7 +152,17 @@ export function AuthProvider({ children }: AuthProviderProps) {
       refreshUser,
       setUser,
     }),
-    [isLoadingFetchUser, isLoadingSubmit, isAuth, token, user, error, login, logout, refreshUser],
+    [
+      isLoadingFetchUser,
+      isLoadingSubmit,
+      isAuth,
+      token,
+      user,
+      error,
+      login,
+      logout,
+      refreshUser,
+    ],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
@@ -145,7 +170,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
 export const useAuth = () => useContext(AuthContext);
 
-export const useRequireAuth = (redirectPath = '/login') => {
+export const useRequireAuth = (redirectPath = "/login") => {
   const auth = useAuth();
   const router = useRouter();
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);

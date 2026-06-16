@@ -1,4 +1,4 @@
-import { axiosInstance } from '@/lib/axios.config';
+import { axiosInstance } from "@/lib/axios.config";
 
 export interface LoginResponse {
   message: string;
@@ -17,19 +17,22 @@ export interface Token {
 export interface User {
   id: number;
   name: string;
-  role: 'DQTT' | 'CHI_HUY' | 'TO_TRUONG' | 'DQCD';
+  role: "DQTT" | "CHI_HUY" | "TO_TRUONG" | "DQCD";
   department: string;
   military_rank: string;
   position: string;
 }
 
-const login = async (email: string, password: string): Promise<LoginResponse> => {
-  const res = await axiosInstance.post('/api/auth/login', { email, password });
+const login = async (
+  email: string,
+  password: string,
+): Promise<LoginResponse> => {
+  const res = await axiosInstance.post("/api/auth/login", { email, password });
   return res.data;
 };
 
 const logout = async () => {
-  const res = await axiosInstance.post('/api/auth/logout');
+  const res = await axiosInstance.post("/api/auth/logout");
   return res.data;
 };
 

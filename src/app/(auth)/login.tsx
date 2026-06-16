@@ -60,7 +60,7 @@ export default function LoginScreen() {
     setLoading(true);
     try {
       const ok = await login(formData.email, formData.password);
-      if (ok) router.replace("/(app)/dashboard");
+      if (ok) router.replace("/(app)/performance");
     } catch (error) {
       console.error(error);
     } finally {

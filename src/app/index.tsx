@@ -7,5 +7,5 @@ export default function Index() {
 
   if (isLoadingFetchUser) return null;
 
-  return <Redirect href={isAuth ? '/(app)/dashboard' : '/(auth)/login'} />;
+  return <Redirect href={isAuth ? '/(app)/performance' : '/(auth)/login'} />;
 }

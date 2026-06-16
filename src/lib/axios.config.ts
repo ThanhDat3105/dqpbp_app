@@ -2,7 +2,9 @@ import axios from "axios";
 
 import { getTokenSync, removeToken } from "@/lib/token-storage";
 
-const BASE_URL = process.env.EXPO_PUBLIC_API_URL || "http://localhost:5000";
+const BASE_URL =
+  process.env.EXPO_PUBLIC_API_URL || "https://dqpbp.onrender.com";
+// || "http://localhost:5000";
 
 const createAxiosInstance = (tokenKey: string) => {
   const instance = axios.create({

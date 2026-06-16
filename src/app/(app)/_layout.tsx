@@ -1,18 +1,21 @@
-import { Tabs } from 'expo-router';
+import { Tabs } from "expo-router";
 
-import { useRequireAuth } from '@/context/AuthContext';
+import { AppBottomTabBar } from "@/components/app-bottom-tab-bar";
 
 export default function AppLayout() {
-  const { isCheckingAuth } = useRequireAuth('/(auth)/login');
+  // const { isCheckingAuth } = useRequireAuth('/(auth)/login');
 
-  if (isCheckingAuth) return null;
+  // if (isCheckingAuth) return null;
 
   return (
-    <Tabs screenOptions={{ headerShown: false }}>
-      <Tabs.Screen name="dashboard" options={{ title: 'Trang chủ' }} />
-      <Tabs.Screen name="activities" options={{ title: 'Hoạt động' }} />
-      <Tabs.Screen name="calendar" options={{ title: 'Lịch' }} />
-      <Tabs.Screen name="profile" options={{ title: 'Cá nhân' }} />
+    <Tabs
+      screenOptions={{ headerShown: false }}
+      tabBar={(props) => <AppBottomTabBar {...props} />}
+    >
+      <Tabs.Screen name="performance" options={{ title: "Hiệu suất" }} />
+      <Tabs.Screen name="activities" options={{ title: "Công tác" }} />
+      <Tabs.Screen name="personnel" options={{ title: "Thuộc diện" }} />
+      <Tabs.Screen name="documents" options={{ title: "Tài liệu" }} />
     </Tabs>
   );
 }

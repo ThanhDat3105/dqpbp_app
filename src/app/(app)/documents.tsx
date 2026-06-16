@@ -3,10 +3,10 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ThemedText } from '@/components/themed-text';
 
-export default function CalendarScreen() {
+export default function DocumentsScreen() {
   return (
     <SafeAreaView style={styles.container}>
-      <ThemedText type="title">Lịch</ThemedText>
+      <ThemedText type="title">Tài liệu QS-QP</ThemedText>
     </SafeAreaView>
   );
 }
