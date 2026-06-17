@@ -125,25 +125,25 @@ export default function AccountScreen() {
               id: "kpi",
               label: "Hiệu xuất làm việc",
               icon: BarChart3,
-              onPress: () => router.push("/account-pages/kpi"),
+              onPress: () => router.push("/(app)/kpi"),
             },
             {
               id: "tasks",
               label: "Nhiệm vụ",
               icon: ClipboardList,
-              onPress: () => router.push("/account-pages/tasks"),
+              onPress: () => router.push("/(app)/tasks"),
             },
             {
               id: "calendar",
               label: "Lịch công tác",
               icon: CalendarDays,
-              onPress: () => router.push("/account-pages/calendar"),
+              onPress: () => router.push("/(app)/calendar"),
             },
             {
               id: "calendar-qdtt",
               label: "Lịch trực tuần",
               icon: FileText,
-              onPress: () => router.push("/account-pages/documents"),
+              onPress: () => router.push("/(app)/calendar-week"),
             },
           ]}
         />
@@ -155,7 +155,7 @@ export default function AccountScreen() {
               id: "documents",
               label: "Tài liệu QS-QP",
               icon: FileText,
-              onPress: () => router.push("/account-pages/documents"),
+              onPress: () => router.push("/(app)/documents"),
             },
           ]}
         />

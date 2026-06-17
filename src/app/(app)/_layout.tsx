@@ -1,6 +1,5 @@
-import { Tabs } from "expo-router";
-
 import { AppBottomTabBar } from "@/components/app-bottom-tab-bar";
+import { Tabs } from "expo-router";
 
 export default function AppLayout() {
   // const { isCheckingAuth } = useRequireAuth('/(auth)/login');
@@ -17,9 +16,27 @@ export default function AppLayout() {
       <Tabs.Screen name="personnel" options={{ title: "Thuộc diện" }} />
       <Tabs.Screen name="documents" options={{ title: "Tài liệu" }} />
       <Tabs.Screen
-        name="account"
+        name="calendar-week"
         options={{
-          tabBarItemStyle: { display: "none" },
+          href: null,
+        }}
+      />
+      <Tabs.Screen
+        name="calendar"
+        options={{
+          href: null,
+        }}
+      />
+      <Tabs.Screen
+        name="kpi"
+        options={{
+          href: null,
+        }}
+      />
+      <Tabs.Screen
+        name="tasks"
+        options={{
+          href: null,
         }}
       />
     </Tabs>

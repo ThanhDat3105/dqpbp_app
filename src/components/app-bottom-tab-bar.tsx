@@ -7,7 +7,6 @@ import {
   Users,
 } from "lucide-react-native";
 import { Pressable, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { ThemedText } from "@/components/themed-text";
 
@@ -25,13 +24,21 @@ export function AppBottomTabBar({
   descriptors,
   navigation,
 }: BottomTabBarProps) {
-  const insets = useSafeAreaInsets();
-  const half = Math.floor(state.routes.length / 2);
-
-  const renderTab = (route: (typeof state.routes)[0], index: number) => {
+  const routes = state.routes.filter((route) => {
     const { options } = descriptors[route.key];
+
+    return (options.tabBarItemStyle as any)?.["display"] !== "none";
+  });
+
+  const half = Math.floor(routes.length / 2);
+
+  const renderTab = (route: (typeof routes)[0]) => {
+    const { options } = descriptors[route.key];
+
     const label = (options.title ?? route.name) as string;
-    const isFocused = state.index === index;
+
+    const isFocused = state.routes[state.index]?.key === route.key;
+
     const Icon = TAB_ICONS[route.name] ?? CalendarCheck2;
 
     const onPress = () => {
@@ -40,8 +47,9 @@ export function AppBottomTabBar({
         target: route.key,
         canPreventDefault: true,
       });
+
       if (!isFocused && !event.defaultPrevented) {
-        navigation.navigate(route.name);
+        navigation.navigate(route.name as never);
       }
     };
 
@@ -52,8 +60,12 @@ export function AppBottomTabBar({
         className="flex-1 items-center gap-1.5 pt-2"
       >
         <Icon size={24} color={isFocused ? ACTIVE_COLOR : "#9ca3af"} />
+
         <ThemedText
-          style={{ color: isFocused ? ACTIVE_COLOR : "#9ca3af", fontSize: 11 }}
+          style={{
+            color: isFocused ? ACTIVE_COLOR : "#9ca3af",
+            fontSize: 11,
+          }}
         >
           {label}
         </ThemedText>
@@ -67,7 +79,7 @@ export function AppBottomTabBar({
       style={{ paddingBottom: 20 }}
     >
       <View className="flex-row items-center pt-2">
-        {state.routes.slice(0, half).map((route, i) => renderTab(route, i))}
+        {routes.slice(0, half).map(renderTab)}
 
         <View className="w-20 items-center">
           <View
@@ -82,7 +94,7 @@ export function AppBottomTabBar({
           </View>
         </View>
 
-        {state.routes.slice(half).map((route, i) => renderTab(route, half + i))}
+        {routes.slice(half).map(renderTab)}
       </View>
     </View>
   );
