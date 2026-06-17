@@ -16,6 +16,12 @@ export default function AppLayout() {
       <Tabs.Screen name="activities" options={{ title: "Công tác" }} />
       <Tabs.Screen name="personnel" options={{ title: "Thuộc diện" }} />
       <Tabs.Screen name="documents" options={{ title: "Tài liệu" }} />
+      <Tabs.Screen
+        name="account"
+        options={{
+          tabBarItemStyle: { display: "none" },
+        }}
+      />
     </Tabs>
   );
 }

@@ -1,6 +1,7 @@
 import { LinearGradient } from "expo-linear-gradient";
+import { useRouter } from "expo-router";
 import { User as UserIcon } from "lucide-react-native";
-import { View } from "react-native";
+import { Pressable, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { ThemedText } from "@/components/themed-text";
@@ -9,6 +10,7 @@ import { Image } from "expo-image";
 
 export function AppHeader() {
   const insets = useSafeAreaInsets();
+  const router = useRouter();
   const { user } = useAuth();
 
   return (
@@ -48,10 +50,13 @@ export function AppHeader() {
         </View>
       </View>
 
-      <View className="relative h-10 w-10 items-center justify-center rounded-full bg-white/15">
+      <Pressable
+        onPress={() => router.push("/account-pages/account")}
+        className="relative h-10 w-10 items-center justify-center rounded-full bg-white/15"
+      >
         <UserIcon size={20} color="#ffffff" />
         <View className="absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full border-2 border-white bg-amber-400" />
-      </View>
+      </Pressable>
     </LinearGradient>
   );
 }
