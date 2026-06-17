@@ -1,7 +1,6 @@
 import { ScrollView, View } from "react-native";
 
 import { ForceView } from "@/components/performance/force-view";
-import { KpiView } from "@/components/performance/kpi-view";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function PerformanceScreen() {
@@ -14,7 +13,6 @@ export default function PerformanceScreen() {
         showsVerticalScrollIndicator={false}
       >
         <ForceView />
-        <KpiView />
       </ScrollView>
     </View>
   );

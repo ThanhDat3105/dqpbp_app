@@ -1,45 +1,51 @@
-import { AlertTriangle, BarChart3, Shield, Users } from "lucide-react-native";
-import { useEffect, useState } from "react";
+import {
+  AlertTriangle,
+  BarChart3,
+  Shield,
+  UsersIcon,
+} from "lucide-react-native";
+import { useEffect, useRef, useState } from "react";
 import { Alert, View } from "react-native";
 
 import { ThemedText } from "@/components/themed-text";
+import useDebounce from "@/hooks/useDebounce";
+import { KpiUser } from "@/services/api/kpi";
 import {
   DeptItem,
   getPersonnelByDept,
-  getPersonnelList,
   getPersonnelOverview,
-  getPersonnelStatusBreakdown,
-  PersonnelItem,
   PersonnelOverview,
-  StatusItem,
 } from "@/services/api/personnel";
+import { userApi, Users } from "@/services/api/user";
 
 import { ForcePersonnelList } from "./force-personnel-list";
+import { KpiUserDetailSheet } from "./kpi-user-detail-sheet";
 import { ProgressBar, SkeletonBox, StatCard } from "./performance-ui-atoms";
 
 export function ForceView() {
   const [overview, setOverview] = useState<PersonnelOverview | null>(null);
   const [byDept, setByDept] = useState<DeptItem[]>([]);
-  const [statusBreakdown, setStatusBreakdown] = useState<{
-    total: number;
-    breakdown: StatusItem[];
-  } | null>(null);
-  const [personnelList, setPersonnelList] = useState<PersonnelItem[]>([]);
+  const [personnelList, setPersonnelList] = useState<Users[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadingList, setLoadingList] = useState(false);
+  const [selectedPerson, setSelectedPerson] = useState<Users | null>(null);
+  const [search, setSearch] = useState("");
 
+  const debouncedSearch = useDebounce(search, 400);
+  const isFirstMount = useRef(true);
+
+  // Fetch overview + dept + initial list một lần khi mount
   useEffect(() => {
     const fetchAll = async () => {
       setLoading(true);
       try {
-        const [ov, dept, status, list] = await Promise.all([
+        const [ov, dept, list] = await Promise.all([
           getPersonnelOverview(),
           getPersonnelByDept(),
-          getPersonnelStatusBreakdown(),
-          getPersonnelList({ status: "on_duty", limit: 10, role: "DQTT" }),
+          userApi.getUsers({ limit: 10, role: "DQTT" }),
         ]);
         setOverview(ov);
         setByDept(dept);
-        setStatusBreakdown(status);
         setPersonnelList(list);
       } catch {
         Alert.alert("Lỗi", "Không thể tải dữ liệu nhân sự");
@@ -50,12 +56,40 @@ export function ForceView() {
     fetchAll();
   }, []);
 
+  // Chỉ fetch list khi search thay đổi (bỏ qua lần render đầu)
+  useEffect(() => {
+    if (isFirstMount.current) {
+      isFirstMount.current = false;
+      return;
+    }
+    let cancelled = false;
+    const fetchList = async () => {
+      setLoadingList(true);
+      try {
+        const list = await userApi.getUsers({
+          limit: 10,
+          role: "DQTT",
+          search: debouncedSearch || undefined,
+        });
+        if (!cancelled) setPersonnelList(list);
+      } catch {
+        // silent - không alert khi search thất bại
+      } finally {
+        if (!cancelled) setLoadingList(false);
+      }
+    };
+    fetchList();
+    return () => {
+      cancelled = true;
+    };
+  }, [debouncedSearch]);
+
   const OVERVIEW_CARDS = overview
     ? [
         {
           label: "Tổng số dân quân",
           value: String(overview.total_users),
-          icon: Users,
+          icon: UsersIcon,
           iconBg: "#ede9fe",
           iconColor: "#7c3aed",
         },
@@ -84,6 +118,20 @@ export function ForceView() {
       ]
     : [];
 
+  const selectedAsKpiUser: KpiUser | null = selectedPerson
+    ? {
+        user_id: selectedPerson.id,
+        name: selectedPerson.name,
+        role: selectedPerson.role as "DQTT" | "DQCD",
+        total_assigned: 0,
+        completed: 0,
+        on_time: 0,
+        cancelled: 0,
+        completion_rate: 0,
+        on_time_rate: 0,
+      }
+    : null;
+
   return (
     <View className="flex-1 bg-gray-50">
       <View className="px-4 pt-4 pb-3">
@@ -101,11 +149,11 @@ export function ForceView() {
       {loading ? (
         <>
           <View className="flex-row gap-3 px-4 mb-3">
-            <SkeletonBox height={84} style={{ flex: 1 }} />{" "}
+            <SkeletonBox height={84} style={{ flex: 1 }} />
             <SkeletonBox height={84} style={{ flex: 1 }} />
           </View>
           <View className="flex-row gap-3 px-4 mb-3">
-            <SkeletonBox height={84} style={{ flex: 1 }} />{" "}
+            <SkeletonBox height={84} style={{ flex: 1 }} />
             <SkeletonBox height={84} style={{ flex: 1 }} />
           </View>
         </>
@@ -187,7 +235,19 @@ export function ForceView() {
         )}
       </View>
 
-      <ForcePersonnelList list={personnelList} loading={loading} />
+      <ForcePersonnelList
+        list={personnelList}
+        loading={loading}
+        loadingList={loadingList}
+        onSelectPerson={setSelectedPerson}
+        search={search}
+        onSearchChange={setSearch}
+      />
+
+      <KpiUserDetailSheet
+        user={selectedAsKpiUser}
+        onClose={() => setSelectedPerson(null)}
+      />
     </View>
   );
 }

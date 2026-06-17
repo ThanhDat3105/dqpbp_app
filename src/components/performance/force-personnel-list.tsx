@@ -1,16 +1,34 @@
+import { ChevronRight } from "lucide-react-native";
+import { Pressable, TextInput, View } from "react-native";
+
 import { ThemedText } from "@/components/themed-text";
-import { PersonnelItem } from "@/services/api/personnel";
-import { Pressable, View } from "react-native";
-import { STATUS_LABELS } from "./performance-constants";
-import { formatShift, initials } from "./performance-helpers";
+
+import { Users } from "@/services/api/user";
+import { initials } from "./performance-helpers";
 import { SkeletonBox } from "./performance-ui-atoms";
+
+const DEPARTMENT_MAP: Record<number, string> = {
+  1: "Văn thư",
+  2: "Tham mưu",
+  3: "Chính trị",
+  4: "Hậu cần - Kỹ thuật",
+  5: "Động viên - Tuyển quân",
+};
 
 export function ForcePersonnelList({
   list,
   loading,
+  loadingList,
+  onSelectPerson,
+  search,
+  onSearchChange,
 }: {
-  list: PersonnelItem[];
+  list: Users[];
   loading: boolean;
+  loadingList: boolean;
+  onSelectPerson: (person: Users) => void;
+  search: string;
+  onSearchChange: (search: string) => void;
 }) {
   return (
     <View className="mx-4 mb-3 rounded-xl border border-gray-100 bg-white shadow-sm overflow-hidden">
@@ -29,7 +47,20 @@ export function ForcePersonnelList({
         </Pressable>
       </View>
 
-      {loading ? (
+      <View className="px-4 py-2 border-b border-gray-50">
+        <View className="flex-row items-center gap-2 rounded-lg border border-gray-200 bg-gray-50 px-3 py-2">
+          <ThemedText style={{ fontSize: 12, color: "#9ca3af" }}>🔍</ThemedText>
+          <TextInput
+            value={search}
+            onChangeText={onSearchChange}
+            placeholder="Tìm theo tên..."
+            placeholderTextColor="#9ca3af"
+            style={{ flex: 1, fontSize: 13, color: "#111827" }}
+          />
+        </View>
+      </View>
+
+      {loading || loadingList ? (
         <View className="p-4" style={{ gap: 10 }}>
           {[1, 2, 3, 4, 5].map((i) => (
             <SkeletonBox key={i} height={52} />
@@ -48,9 +79,18 @@ export function ForcePersonnelList({
         </ThemedText>
       ) : (
         list.map((person) => (
-          <View
+          <Pressable
             key={person.id}
-            className="flex-row items-center gap-3 px-4 py-3 border-b border-gray-50"
+            onPress={() => onSelectPerson(person)}
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 12,
+              paddingHorizontal: 16,
+              paddingVertical: 12,
+              borderBottomWidth: 1,
+              borderBottomColor: "#f9fafb",
+            }}
           >
             <View
               style={{
@@ -68,7 +108,7 @@ export function ForcePersonnelList({
                 {initials(person.name)}
               </ThemedText>
             </View>
-            <View className="flex-1">
+            <View style={{ flex: 1 }}>
               <ThemedText
                 style={{ fontSize: 13, fontWeight: "600", color: "#111827" }}
                 numberOfLines={1}
@@ -78,35 +118,11 @@ export function ForcePersonnelList({
               <ThemedText
                 style={{ fontSize: 11, color: "#6b7280", marginTop: 1 }}
               >
-                {`${person.role} · ${person.department_name}`}
+                {`${person.role} · ${DEPARTMENT_MAP[person.department_id]}`}
               </ThemedText>
             </View>
-            <View className="items-end">
-              <View
-                style={{
-                  paddingHorizontal: 7,
-                  paddingVertical: 2,
-                  borderRadius: 99,
-                  backgroundColor:
-                    person.status === "on_duty" ? "#d1fae5" : "#fef3c7",
-                  marginBottom: 2,
-                }}
-              >
-                <ThemedText
-                  style={{
-                    fontSize: 10,
-                    fontWeight: "600",
-                    color: person.status === "on_duty" ? "#065f46" : "#92400e",
-                  }}
-                >
-                  {STATUS_LABELS[person.status] ?? person.status}
-                </ThemedText>
-              </View>
-              <ThemedText style={{ fontSize: 10, color: "#9ca3af" }}>
-                {formatShift(person.shift_start_at)}
-              </ThemedText>
-            </View>
-          </View>
+            <ChevronRight size={14} color="#d1d5db" />
+          </Pressable>
         ))
       )}
     </View>

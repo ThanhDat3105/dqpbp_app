@@ -79,14 +79,18 @@ export async function getRecentTasks(params: {
 }): Promise<KpiRecentTask[]> {
   try {
     const res = await axiosInstance.get("/api/activities-task", {
-      params: { assignee: params.user_id, limit: params.limit ?? 5, sort: "due_date_desc" },
+      params: {
+        assignee: params.user_id,
+        limit: params.limit ?? 5,
+        sort: "due_date_desc",
+      },
     });
+
     const source =
-      res.data?.metaData?.results ??
-      res.data?.metaData?.data ??
-      res.data?.metaData ??
-      [];
+      res.data?.data?.results ?? res.data?.data?.data ?? res.data?.data ?? [];
+
     if (!Array.isArray(source)) return [];
+
     return source.map((item: any, i: number) => ({
       id: Number(item.id ?? i + 1),
       title: String(item.title ?? "Nhiệm vụ"),

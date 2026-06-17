@@ -31,6 +31,8 @@ export interface PersonnelItem {
   department_name: string;
 }
 
+export interface Users {}
+
 export async function getPersonnelOverview(): Promise<PersonnelOverview> {
   const res = await axiosInstance.get("/api/personnel/overview");
   return res.data.metaData;
@@ -47,13 +49,4 @@ export async function getPersonnelStatusBreakdown(): Promise<{
 }> {
   const res = await axiosInstance.get("/api/personnel/status-breakdown");
   return res.data.metaData;
-}
-
-export async function getPersonnelList(params: {
-  status?: string;
-  role?: string;
-  limit?: number;
-}): Promise<PersonnelItem[]> {
-  const res = await axiosInstance.get("/api/personnel/list", { params });
-  return res.data.metaData.data ?? [];
 }
