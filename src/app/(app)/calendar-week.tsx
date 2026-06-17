@@ -1,12 +1,10 @@
 import { StyleSheet, View } from "react-native";
 
-import { AppHeader } from "@/components/app-header";
 import { ThemedText } from "@/components/themed-text";
 
-export default function PersonnelScreen() {
+export default function CalendarWeekScreen() {
   return (
     <View style={styles.screen}>
-      <AppHeader />
       <View style={styles.container}>
         <ThemedText type="title">Lịch trực tuần</ThemedText>
       </View>

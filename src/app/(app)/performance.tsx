@@ -1,24 +1,21 @@
-import { StyleSheet, View } from 'react-native';
+import { ScrollView, View } from "react-native";
 
-import { AppHeader } from '@/components/app-header';
-import { ThemedText } from '@/components/themed-text';
-import { useAuth } from '@/context/AuthContext';
+import { ForceView } from "@/components/performance/force-view";
+import { KpiView } from "@/components/performance/kpi-view";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function PerformanceScreen() {
-  const { user } = useAuth();
+  const insets = useSafeAreaInsets();
 
   return (
-    <View style={styles.screen}>
-      <AppHeader />
-      <View style={styles.container}>
-        <ThemedText type="title">Hiệu suất</ThemedText>
-        <ThemedText>Xin chào, {user?.name}</ThemedText>
-      </View>
+    <View style={{ flex: 1, backgroundColor: "#f9fafb" }}>
+      <ScrollView
+        contentContainerStyle={{ paddingBottom: insets.bottom + 100 }}
+        showsVerticalScrollIndicator={false}
+      >
+        <ForceView />
+        <KpiView />
+      </ScrollView>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  screen: { flex: 1 },
-  container: { flex: 1, padding: 24, gap: 8 },
-});

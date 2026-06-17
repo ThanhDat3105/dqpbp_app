@@ -1,14 +1,14 @@
 import { AppBottomTabBar } from "@/components/app-bottom-tab-bar";
+import { AppHeader } from "@/components/app-header";
 import { Tabs } from "expo-router";
 
 export default function AppLayout() {
-  // const { isCheckingAuth } = useRequireAuth('/(auth)/login');
-
-  // if (isCheckingAuth) return null;
-
   return (
     <Tabs
-      screenOptions={{ headerShown: false }}
+      screenOptions={{
+        headerShown: true,
+        header: () => <AppHeader />,
+      }}
       tabBar={(props) => <AppBottomTabBar {...props} />}
     >
       <Tabs.Screen name="performance" options={{ title: "Hiệu suất" }} />

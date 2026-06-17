@@ -122,10 +122,10 @@ export default function AccountScreen() {
           title="QUẢN LÝ CÔNG VIỆC"
           items={[
             {
-              id: "kpi",
+              id: "performance",
               label: "Hiệu xuất làm việc",
               icon: BarChart3,
-              onPress: () => router.push("/(app)/kpi"),
+              onPress: () => router.push("/(app)/performance"),
             },
             {
               id: "tasks",

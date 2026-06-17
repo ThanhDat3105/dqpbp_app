@@ -10,6 +10,8 @@ import { Pressable, View } from "react-native";
 
 import { ThemedText } from "@/components/themed-text";
 
+const VISIBLE_TABS = ["performance", "activities", "personnel", "documents"];
+
 const TAB_ICONS: Record<string, typeof BarChart3> = {
   performance: BarChart3,
   activities: CalendarCheck2,
@@ -24,11 +26,9 @@ export function AppBottomTabBar({
   descriptors,
   navigation,
 }: BottomTabBarProps) {
-  const routes = state.routes.filter((route) => {
-    const { options } = descriptors[route.key];
-
-    return (options.tabBarItemStyle as any)?.["display"] !== "none";
-  });
+  const routes = state.routes.filter((route) =>
+    VISIBLE_TABS.includes(route.name),
+  );
 
   const half = Math.floor(routes.length / 2);
 

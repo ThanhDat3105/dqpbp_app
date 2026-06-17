@@ -1,12 +1,10 @@
 import { StyleSheet, View } from "react-native";
 
-import { AppHeader } from "@/components/app-header";
 import { ThemedText } from "@/components/themed-text";
 
 export default function TasksPage() {
   return (
     <View style={styles.screen}>
-      <AppHeader />
       <View style={styles.container}>
         <ThemedText type="title">Nhiệm vụ</ThemedText>
       </View>
