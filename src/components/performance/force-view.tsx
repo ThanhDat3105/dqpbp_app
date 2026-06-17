@@ -123,6 +123,7 @@ export function ForceView() {
         user_id: selectedPerson.id,
         name: selectedPerson.name,
         role: selectedPerson.role as "DQTT" | "DQCD",
+        department_id: selectedPerson.department_id,
         total_assigned: 0,
         completed: 0,
         on_time: 0,

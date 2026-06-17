@@ -18,6 +18,7 @@ import {
   KpiUser,
 } from "@/services/api/kpi";
 
+import { DEPARTMENT_MAP } from "./force-personnel-list";
 import { KpiRecentTasksList } from "./kpi-recent-tasks-list";
 import { completionColor, initials } from "./performance-helpers";
 import { ProgressBar, SkeletonBox } from "./performance-ui-atoms";
@@ -217,7 +218,7 @@ export function KpiUserDetailSheet({ user, onClose }: Props) {
                       color: user?.role === "DQTT" ? "#1d4ed8" : "#c2410c",
                     }}
                   >
-                    {user?.role}
+                    {`${user?.role} · ${user?.department_id ? DEPARTMENT_MAP[user?.department_id] : "Chưa phân công"}`}
                   </ThemedText>
                 </View>
               </View>

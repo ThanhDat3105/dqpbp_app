@@ -12,6 +12,7 @@ export interface KpiUser {
   cancelled: number;
   completion_rate: number;
   on_time_rate: number;
+  department_id?: number;
 }
 
 export interface KpiSummary {

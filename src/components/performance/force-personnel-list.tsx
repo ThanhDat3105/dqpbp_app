@@ -7,7 +7,7 @@ import { Users } from "@/services/api/user";
 import { initials } from "./performance-helpers";
 import { SkeletonBox } from "./performance-ui-atoms";
 
-const DEPARTMENT_MAP: Record<number, string> = {
+export const DEPARTMENT_MAP: Record<number, string> = {
   1: "Văn thư",
   2: "Tham mưu",
   3: "Chính trị",
