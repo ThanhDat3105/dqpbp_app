@@ -36,22 +36,41 @@ export default function QndbPersonnelTab() {
     }
   };
 
-  const { rows, total, loading, loadingMore, loadMore, refresh, debouncedSearch } =
-    useQndbList(search);
+  const {
+    rows,
+    total,
+    loading,
+    loadingMore,
+    loadMore,
+    refresh,
+    debouncedSearch,
+  } = useQndbList(search);
 
   const {
-    detailId, setDetailId,
-    formVisible, setFormVisible,
-    formMode, formInitial,
-    deleteTarget, setDeleteTarget, deleteLoading,
-    openCreate, openEdit, confirmDelete, onFormSuccess,
+    detailId,
+    setDetailId,
+    formVisible,
+    setFormVisible,
+    formMode,
+    formInitial,
+    deleteTarget,
+    setDeleteTarget,
+    deleteLoading,
+    openCreate,
+    openEdit,
+    confirmDelete,
+    onFormSuccess,
   } = useQndbActions({ refresh, showToast });
 
   const isEmpty = !loading && rows.length === 0;
 
   return (
     <View style={{ flex: 1, backgroundColor: "#f9fafb" }}>
-      <QndbScreenHeader total={total} isReadOnly={isReadOnly} onAdd={openCreate} />
+      <QndbScreenHeader
+        total={total}
+        isReadOnly={isReadOnly}
+        onAdd={openCreate}
+      />
       <QndbSearchToolbar search={search} onSearchChange={setSearch} />
 
       {loading && rows.length === 0 ? (
@@ -79,11 +98,19 @@ export default function QndbPersonnelTab() {
               onDelete={() => setDeleteTarget(item)}
             />
           )}
-          contentContainerStyle={[s.list, { paddingBottom: insets.bottom + 16 }]}
+          contentContainerStyle={[
+            s.list,
+            { padding: 16, paddingBottom: insets.bottom + 100 },
+          ]}
           onEndReached={loadMore}
           onEndReachedThreshold={0.3}
           ListFooterComponent={
-            loadingMore ? <ActivityIndicator color="#556B2F" style={{ marginVertical: 12 }} /> : null
+            loadingMore ? (
+              <ActivityIndicator
+                color="#556B2F"
+                style={{ marginVertical: 12 }}
+              />
+            ) : null
           }
         />
       )}
@@ -121,8 +148,23 @@ export default function QndbPersonnelTab() {
 
 const s = StyleSheet.create({
   center: { flex: 1, alignItems: "center", justifyContent: "center" },
-  emptyText: { fontSize: 14, color: "#9ca3af", textAlign: "center", paddingHorizontal: 32 },
+  emptyText: {
+    fontSize: 14,
+    color: "#9ca3af",
+    textAlign: "center",
+    paddingHorizontal: 32,
+  },
   list: { padding: 16 },
-  toast: { position: "absolute", bottom: 32, left: 24, right: 24, backgroundColor: "#1f2937", borderRadius: 12, paddingHorizontal: 16, paddingVertical: 12, alignItems: "center" },
+  toast: {
+    position: "absolute",
+    bottom: 32,
+    left: 24,
+    right: 24,
+    backgroundColor: "#1f2937",
+    borderRadius: 12,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    alignItems: "center",
+  },
   toastText: { color: "#fff", fontSize: 14, fontWeight: "500" },
 });

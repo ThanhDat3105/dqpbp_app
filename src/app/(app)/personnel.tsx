@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Pressable, View } from "react-native";
 
+import DqttPersonnelTab from "@/components/dqtt/dqtt-personnel-tab";
 import NguonPersonnelTab from "@/components/nguon/nguon-personnel-tab";
 import QndbPersonnelTab from "@/components/qndb/qndb-personnel-tab";
 import { ThemedText } from "@/components/themed-text";
@@ -71,15 +72,7 @@ export default function PersonnelScreen() {
 
       {activeTab === "17tuoi" && <YouthPersonnelTab />}
       {activeTab === "nguon" && <NguonPersonnelTab />}
-      {activeTab === "dqtt" && (
-        <View
-          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
-        >
-          <ThemedText style={{ color: "#9ca3af", fontSize: 14 }}>
-            DQTT — đang phát triển
-          </ThemedText>
-        </View>
-      )}
+      {activeTab === "dqtt" && <DqttPersonnelTab />}
       {activeTab === "qndb" && <QndbPersonnelTab />}
     </View>
   );

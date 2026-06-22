@@ -12,18 +12,44 @@ const TABS = [
 
 type TabKey = (typeof TABS)[number]["key"];
 
-function InnerTabBar({ active, onChange }: { active: TabKey; onChange: (k: TabKey) => void }) {
+function InnerTabBar({
+  active,
+  onChange,
+}: {
+  active: TabKey;
+  onChange: (k: TabKey) => void;
+}) {
   return (
-    <View style={{ flexDirection: "row", backgroundColor: "#fff", borderBottomWidth: 1, borderBottomColor: "#e5e7eb", paddingHorizontal: 16 }}>
+    <View
+      style={{
+        flexDirection: "row",
+        backgroundColor: "#fff",
+        borderBottomWidth: 1,
+        borderBottomColor: "#e5e7eb",
+        paddingHorizontal: 16,
+      }}
+    >
       {TABS.map((tab) => {
         const isActive = active === tab.key;
         return (
           <Pressable
             key={tab.key}
             onPress={() => onChange(tab.key)}
-            style={{ flex: 1, alignItems: "center", paddingVertical: 11, borderBottomWidth: 2, borderBottomColor: isActive ? "#3b4a2e" : "transparent" }}
+            style={{
+              flex: 1,
+              alignItems: "center",
+              paddingVertical: 11,
+              borderBottomWidth: 2,
+              borderBottomColor: isActive ? "#3b4a2e" : "transparent",
+            }}
           >
-            <ThemedText style={{ fontSize: 13, fontWeight: isActive ? "700" : "500", color: isActive ? "#3b4a2e" : "#6b7280" }}>
+            <ThemedText
+              style={{
+                fontSize: 13,
+                fontWeight: isActive ? "700" : "500",
+                color: isActive ? "#3b4a2e" : "#6b7280",
+              }}
+            >
               {tab.label}
             </ThemedText>
           </Pressable>
@@ -42,13 +68,21 @@ export default function ActivitiesScreen() {
 
       {activeTab === "tasks" && <ActivityListTab />}
       {activeTab === "calendar" && (
-        <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-          <ThemedText style={{ color: "#9ca3af", fontSize: 14 }}>Lịch công tác — đang phát triển</ThemedText>
+        <View
+          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+        >
+          <ThemedText style={{ color: "#9ca3af", fontSize: 14 }}>
+            Lịch công tác — đang phát triển
+          </ThemedText>
         </View>
       )}
       {activeTab === "duty" && (
-        <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-          <ThemedText style={{ color: "#9ca3af", fontSize: 14 }}>Trực tuần — đang phát triển</ThemedText>
+        <View
+          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+        >
+          <ThemedText style={{ color: "#9ca3af", fontSize: 14 }}>
+            Trực tuần — đang phát triển
+          </ThemedText>
         </View>
       )}
     </View>

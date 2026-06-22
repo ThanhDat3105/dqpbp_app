@@ -1,15 +1,15 @@
-import { Stack } from 'expo-router';
+import { Stack } from "expo-router";
 
-import { AnimatedSplashOverlay } from '@/components/animated-icon';
-import { AuthProvider } from '@/context/AuthContext';
-import '@/global.css';
+import { AnimatedSplashOverlay } from "@/components/animated-icon";
+import { AuthProvider } from "@/context/AuthContext";
+import "@/global.css";
 
 export default function RootLayout() {
   return (
     <AuthProvider>
       <AnimatedSplashOverlay />
       <Stack
-        screenOptions={{ headerShown: false, animation: 'slide_from_right' }}
+        screenOptions={{ headerShown: false, animation: "slide_from_right" }}
       >
         <Stack.Screen name="index" />
         <Stack.Screen name="(auth)" />
