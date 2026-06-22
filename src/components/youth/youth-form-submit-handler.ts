@@ -1,0 +1,40 @@
+import {
+  YouthCreatePayload,
+  YouthPersonnelDetail,
+  YouthUpdatePayload,
+  youthApi,
+} from "@/services/api/youth";
+
+export async function submitYouthForm(
+  mode: "create" | "edit",
+  form: YouthCreatePayload,
+  initial: YouthPersonnelDetail | null | undefined,
+): Promise<void> {
+  if (mode === "create") {
+    await youthApi.create({
+      ...form,
+      permanent_address: form.permanent_address || undefined,
+      temporary_address: form.temporary_address || undefined,
+      phone: form.phone || undefined,
+      education_level: form.education_level || undefined,
+    });
+    return;
+  }
+
+  if (!initial) return;
+  const diff: YouthUpdatePayload = {};
+  if (form.full_name !== initial.full_name) diff.full_name = form.full_name;
+  if (form.date_of_birth !== initial.date_of_birth?.split("T")[0]) diff.date_of_birth = form.date_of_birth;
+  if ((form.permanent_address || "") !== (initial.permanent_address || "")) diff.permanent_address = form.permanent_address;
+  if ((form.temporary_address || "") !== (initial.temporary_address || "")) diff.temporary_address = form.temporary_address;
+  if ((form.phone || "") !== (initial.phone || "")) diff.phone = form.phone;
+  if ((form.education_level || "") !== (initial.education_level || "")) diff.education_level = form.education_level;
+  if (form.is_registered !== initial.is_registered) diff.is_registered = form.is_registered;
+  await youthApi.update(initial.id, diff);
+}
+
+export function validateYouthForm(form: YouthCreatePayload): string | null {
+  if (!form.full_name.trim()) return "Họ và tên không được để trống";
+  if (!form.date_of_birth) return "Ngày sinh không được để trống";
+  return null;
+}
