@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Pressable, View } from "react-native";
 
 import NguonPersonnelTab from "@/components/nguon/nguon-personnel-tab";
+import QndbPersonnelTab from "@/components/qndb/qndb-personnel-tab";
 import { ThemedText } from "@/components/themed-text";
 import { YouthPersonnelTab } from "@/components/youth/youth-personnel-tab";
 
@@ -79,15 +80,7 @@ export default function PersonnelScreen() {
           </ThemedText>
         </View>
       )}
-      {activeTab === "qndb" && (
-        <View
-          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
-        >
-          <ThemedText style={{ color: "#9ca3af", fontSize: 14 }}>
-            Quân nhân dự bị — đang phát triển
-          </ThemedText>
-        </View>
-      )}
+      {activeTab === "qndb" && <QndbPersonnelTab />}
     </View>
   );
 }
