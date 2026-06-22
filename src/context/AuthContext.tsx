@@ -86,8 +86,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
     try {
       const data = await authApi.login(email, password);
 
-      console.log("Login successful:", data);
-
       const {
         token: { access_token: newToken },
         user: userData,
