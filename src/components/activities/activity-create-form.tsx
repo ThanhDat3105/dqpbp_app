@@ -5,8 +5,10 @@ import {
   ActivityIndicator,
   Alert,
   Modal,
+  Platform,
   Pressable,
   ScrollView,
+  ToastAndroid,
   View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -177,9 +179,13 @@ export function ActivityCreateForm({
         })),
       };
       const created = await createActivity(payload);
+      if (Platform.OS === "android") {
+        ToastAndroid.show("Tạo công tác thành công!", ToastAndroid.SHORT);
+      } else {
+        Alert.alert("Thành công", "Tạo công tác thành công!");
+      }
       onSuccess(created);
     } catch (err: any) {
-      console.log(err);
       Alert.alert(
         "Lỗi",
         err?.response?.data?.message ?? "Không thể tạo công tác",
