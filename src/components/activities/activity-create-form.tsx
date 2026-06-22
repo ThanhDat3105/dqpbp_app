@@ -17,9 +17,11 @@ import { axiosInstance } from "@/lib/axios.config";
 import {
   ActivityInterface,
   ActivityTemplate,
+  createActivity,
+  CreateActivityPayload,
   getActivityTemplateById,
   getActivityTemplates,
-  getDepartmentLabel
+  getDepartmentLabel,
 } from "@/services/api/activity";
 
 import {
@@ -138,6 +140,7 @@ export function ActivityCreateForm({
       e.end_date = "Phải sau ngày bắt đầu";
     tasks.forEach((t, i) => {
       if (!t.title.trim()) e[`task_${i}_title`] = "Bắt buộc";
+      if (!t.due_date) e[`task_${i}_due_date`] = "Bắt buộc";
     });
     setErrors(e);
     return Object.keys(e).length === 0;
@@ -149,9 +152,41 @@ export function ActivityCreateForm({
       return;
     }
 
-    console.log("Submitting activity", tasks);
-
-    return;
+    setLoading(true);
+    try {
+      const now = new Date().toISOString();
+      const payload: CreateActivityPayload = {
+        name,
+        work_type: workType,
+        department,
+        location,
+        start_date: startDate,
+        end_date: endDate,
+        document_number: documentNumber,
+        attached_files: [],
+        created_by: String(user?.id ?? ""),
+        created_at: now,
+        updated_at: now,
+        tasks: tasks.map(({ _key, ...t }) => ({
+          ...t,
+          start_date: startDate,
+          status: "pending",
+          accepted_at: null,
+          created_at: now,
+          updated_at: now,
+        })),
+      };
+      const created = await createActivity(payload);
+      onSuccess(created);
+    } catch (err: any) {
+      console.log(err);
+      Alert.alert(
+        "Lỗi",
+        err?.response?.data?.message ?? "Không thể tạo công tác",
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

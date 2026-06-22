@@ -109,11 +109,19 @@ export function ActivityTaskDraftList({
           </View>
 
           <View>
-            <FieldLabel label="Hạn hoàn thành" />
+            <FieldLabel label="Hạn hoàn thành" required />
             <DateTimePickerInput
               value={task.due_date}
               onChange={(v) => onUpdate(task._key, { due_date: v })}
+              error={!!errors[`task_${idx}_due_date`]}
             />
+            {errors[`task_${idx}_due_date`] && (
+              <ThemedText
+                style={{ fontSize: 11, color: "#ef4444", marginTop: 2 }}
+              >
+                {errors[`task_${idx}_due_date`]}
+              </ThemedText>
+            )}
           </View>
 
           <View>
