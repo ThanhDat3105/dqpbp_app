@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Pressable, View } from "react-native";
 
+import DqcdPersonnelTab from "@/components/dqcd/dqcd-personnel-tab";
 import DqttPersonnelTab from "@/components/dqtt/dqtt-personnel-tab";
 import NguonPersonnelTab from "@/components/nguon/nguon-personnel-tab";
 import QndbPersonnelTab from "@/components/qndb/qndb-personnel-tab";
@@ -11,6 +12,7 @@ const TABS = [
   { key: "17tuoi", label: "Tuổi 17" },
   { key: "nguon", label: "Nguồn" },
   { key: "dqtt", label: "DQTT" },
+  { key: "dqcd", label: "DQCD" },
   { key: "qndb", label: "Quân nhân DB" },
 ] as const;
 
@@ -73,6 +75,7 @@ export default function PersonnelScreen() {
       {activeTab === "17tuoi" && <YouthPersonnelTab />}
       {activeTab === "nguon" && <NguonPersonnelTab />}
       {activeTab === "dqtt" && <DqttPersonnelTab />}
+      {activeTab === "dqcd" && <DqcdPersonnelTab />}
       {activeTab === "qndb" && <QndbPersonnelTab />}
     </View>
   );

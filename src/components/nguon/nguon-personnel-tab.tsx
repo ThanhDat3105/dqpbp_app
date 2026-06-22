@@ -1,10 +1,10 @@
 import { useState } from "react";
 import {
-  ActivityIndicator,
-  FlatList,
-  Pressable,
-  StyleSheet,
-  View,
+    ActivityIndicator,
+    FlatList,
+    Pressable,
+    StyleSheet,
+    View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -15,9 +15,9 @@ import { useAuth } from "@/context/AuthContext";
 import { NguonDetailSheet } from "./nguon-detail-sheet";
 import { NguonFormModal } from "./nguon-form-modal";
 import { NguonListItem } from "./nguon-list-item";
+import { NguonScreenHeader, NguonSearchToolbar } from "./nguon-screen-header";
 import { useNguonActions } from "./use-nguon-actions";
 import { useNguonList } from "./use-nguon-list";
-import { NguonSearchToolbar, NguonScreenHeader } from "./nguon-screen-header";
 
 export default function NguonPersonnelTab() {
   const { user } = useAuth();
@@ -32,8 +32,15 @@ export default function NguonPersonnelTab() {
     setTimeout(() => setToast(null), 2800);
   };
 
-  const { rows, total, loading, loadingMore, loadMore, refresh, debouncedSearch } =
-    useNguonList(search);
+  const {
+    rows,
+    total,
+    loading,
+    loadingMore,
+    loadMore,
+    refresh,
+    debouncedSearch,
+  } = useNguonList(search);
 
   const actions = useNguonActions({ refresh, showToast });
 
@@ -44,10 +51,7 @@ export default function NguonPersonnelTab() {
         isReadOnly={isReadOnly}
         onAdd={actions.openCreate}
       />
-      <NguonSearchToolbar
-        search={search}
-        onSearchChange={setSearch}
-      />
+      <NguonSearchToolbar search={search} onSearchChange={setSearch} />
 
       {loading ? (
         <View style={s.center}>
