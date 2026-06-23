@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Pressable, View } from "react-native";
 
 import { ActivityListTab } from "@/components/activities/activity-list-tab";
+import { CalendarTab } from "@/components/calendar/calendar-tab";
 import { ThemedText } from "@/components/themed-text";
 
 const TABS = [
@@ -67,15 +68,7 @@ export default function ActivitiesScreen() {
       <InnerTabBar active={activeTab} onChange={setActiveTab} />
 
       {activeTab === "tasks" && <ActivityListTab />}
-      {activeTab === "calendar" && (
-        <View
-          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
-        >
-          <ThemedText style={{ color: "#9ca3af", fontSize: 14 }}>
-            Lịch công tác — đang phát triển
-          </ThemedText>
-        </View>
-      )}
+      {activeTab === "calendar" && <CalendarTab />}
       {activeTab === "duty" && (
         <View
           style={{ flex: 1, alignItems: "center", justifyContent: "center" }}

@@ -1,18 +1,5 @@
-import { StyleSheet, View } from "react-native";
+import { CalendarTab } from "@/components/calendar/calendar-tab";
 
-import { ThemedText } from "@/components/themed-text";
-
-export default function CalendarPage() {
-  return (
-    <View style={styles.screen}>
-      <View style={styles.container}>
-        <ThemedText type="title">Lịch công tác</ThemedText>
-      </View>
-    </View>
-  );
+export default function CalendarScreen() {
+  return <CalendarTab />;
 }
-
-const styles = StyleSheet.create({
-  screen: { flex: 1 },
-  container: { flex: 1, padding: 24 },
-});
