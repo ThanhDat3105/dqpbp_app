@@ -3,6 +3,7 @@ import { Pressable, View } from "react-native";
 
 import { ActivityListTab } from "@/components/activities/activity-list-tab";
 import { CalendarTab } from "@/components/calendar/calendar-tab";
+import { ScheduleTab } from "@/components/schedule/schedule-tab";
 import { ThemedText } from "@/components/themed-text";
 
 const TABS = [
@@ -69,15 +70,7 @@ export default function ActivitiesScreen() {
 
       {activeTab === "tasks" && <ActivityListTab />}
       {activeTab === "calendar" && <CalendarTab />}
-      {activeTab === "duty" && (
-        <View
-          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
-        >
-          <ThemedText style={{ color: "#9ca3af", fontSize: 14 }}>
-            Trực tuần — đang phát triển
-          </ThemedText>
-        </View>
-      )}
+      {activeTab === "duty" && <ScheduleTab />}
     </View>
   );
 }
